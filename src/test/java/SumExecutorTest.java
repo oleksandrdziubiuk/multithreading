@@ -23,11 +23,4 @@ class SumExecutorTest {
     void getSum_NotOk() {
         Assertions.assertNotEquals(100, executor.getSum());
     }
-
-    @Test
-    void getSum_Exception() {
-        if (executor.getSum() == 0) {
-            Assertions.assertThrows(RuntimeException.class, () -> executor.getSum());
-        }
-    }
 }

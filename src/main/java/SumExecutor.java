@@ -9,14 +9,18 @@ import java.util.concurrent.Future;
 public class SumExecutor {
     private static final int THREADS = 4;
 
-    public int getSum() {
-        ExecutorService executor = Executors.newFixedThreadPool(THREADS);
-        List<Integer> list = Util.generate();
+    private List<Callable<Integer>> getCallables(List<Integer> list) {
         List<Callable<Integer>> tasks = new ArrayList<>();
         for (int i = 0; i < list.size(); i += list.size() / THREADS) {
             int length = i + list.size() / THREADS;
             tasks.add(new SumExecutorImpl(list.subList(i, Math.min(length, list.size()))));
         }
+        return tasks;
+    }
+
+    public int getSum() {
+        ExecutorService executor = Executors.newFixedThreadPool(THREADS);
+        List<Callable<Integer>> tasks = getCallables(Util.generate());
         try {
             List<Future<Integer>> futures = executor.invokeAll(tasks);
             int result = 0;
