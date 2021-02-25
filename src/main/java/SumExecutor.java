@@ -18,9 +18,9 @@ public class SumExecutor {
         return tasks;
     }
 
-    public int getSum() {
+    public int getSum(List<Integer> list) {
         ExecutorService executor = Executors.newFixedThreadPool(THREADS);
-        List<Callable<Integer>> tasks = getCallables(Util.generate());
+        List<Callable<Integer>> tasks = getCallables(list);
         try {
             List<Future<Integer>> futures = executor.invokeAll(tasks);
             int result = 0;
